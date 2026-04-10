@@ -124,7 +124,11 @@ Nếu chunk quá nhỏ, hệ thống có thể mất ngữ cảnh pháp lý quan
 | Nguyễn Phạm Trà My | AgenticChunker |8| Linh hoạt trong việc quản lý ngữ cảnh | Chi phí cao và tốc độ xử lý chậm do phụ thuộc hoàn toàn vào việc gọi API từ LLM cho từng đoạn văn bản.|
 
 **Strategy nào tốt nhất cho domain này? Tại sao?**
-> *Viết 2-3 câu:*Recursive chunking cho kết quả tốt hơn vì nó chia văn bản dựa trên ranh giới ngữ nghĩa tự nhiên như đoạn văn và câu, giúp mỗi chunk giữ được ý nghĩa hoàn chỉnh. Điều này giúp embedding biểu diễn nội dung chính xác hơn, nên vector search tìm được đoạn liên quan dễ dàng hơn. Ngược lại, Parent–Child chunking chia văn bản theo kích thước ký tự cố định, nên nhiều chunk có thể bị cắt giữa câu hoặc giữa điều luật. Vì vậy embedding chứa thông tin không đầy đủ hoặc bị nhiễu, dẫn đến chất lượng retrieval thấp hơn.
+> *### So sánh Strategy tốt nhất và Strategy của tôi
+
+Strategy có kết quả tốt nhất là **FixedSizeChunker (10/10)** của Mạc Phương Nga. Chiến lược này hoạt động tốt vì chia tài liệu thành các chunk nhỏ và đồng đều, giúp vector search dễ tìm được đoạn chứa thông tin chính xác, đồng thời kiểm soát tốt lượng token đưa vào LLM.
+So với đó, **Parent–Child Chunking (8.3/10)** của em vẫn cho kết quả khá tốt vì Top-1 thường chứa đáp án và có thể giữ được ngữ cảnh lớn hơn khi truy xuất parent chunk. Tuy nhiên, strategy này đôi khi trả về nhiều chunk không liên quan trong Top-K, gây nhiễu context và làm mô hình bị mất trọng tâm khi trả lời.
+Nhìn chung, **FixedSizeChunker cho retrieval ổn định hơn trong dataset này**, trong khi **Parent–Child phù hợp hơn khi cần giữ ngữ cảnh dài**, nhưng cần tối ưu thêm chunk size và retrieval filtering để đạt hiệu quả tốt hơn..
 
 ---
 
