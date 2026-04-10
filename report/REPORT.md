@@ -116,7 +116,7 @@ Nếu chunk quá nhỏ, hệ thống có thể mất ngữ cảnh pháp lý quan
 
 | Thành viên | Strategy | Retrieval Score (/10) | Điểm mạnh | Điểm yếu |
 |-----------|----------|----------------------|-----------|----------|
-| Tôi |Parent–Child || 8.3/10|Trả lời câu hỏi, tìm chunks khá chính xác, (Top-1 thường chứa đáp án).| Test thêm queries, có queries bị lan man không đúng trọng tâm dù tìm đúng đoạn chunk đoạn thông tin cần trả lời, có case bị lost-track information. Top-K còn nhiều chunk không liên quan → context bị nhiễu
+| Tôi |Parent–Child| 8.3/10|Trả lời câu hỏi, tìm chunks khá chính xác, (Top-1 thường chứa đáp án).| Test thêm queries, có queries bị lan man không đúng trọng tâm dù tìm đúng đoạn chunk đoạn thông tin cần trả lời, có case bị lost-track information. Top-K còn nhiều chunk không liên quan → context bị nhiễu
 | [Mạc Phương Nga] |FixedSizeChunker |10  | Xử lý đơn giản, nhanh. Kiểm soát được lượng token đưa vào LLM |Phụ thuộc nhiều vào chunk_size và overlap, cần kiểm thử nhiều lần để tìm cặp thông số tối ưu |
 | [Lại Gia Khánh] |Semantic Chunking | 8| Giữ nguyên đơn vị nghĩa (câu/điều), cải thiện độ chính xác truy vấn và khả năng trích dẫn nguồn; giảm nhiễu khi trả lời câu hỏi chuyên sâu.|  Phụ thuộc vào chất lượng embedding và ngưỡng similarity; cần tinh chỉnh threshold; tốn tài nguyên hơn và có thể tạo chunk kích thước không đồng đều. |
 | Duy Anh | Custom Strategy (Regex Based Chunking) | 8.5 | Bảo toàn ngữ cảnh tốt | Khi điều luật quá dài, đoạn chunk sinh ra sẽ vượt qua giới hạn context window. Hao phí khi embedding. Sự thừa thãi khi truy xuất.  |
